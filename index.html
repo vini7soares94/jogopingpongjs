@@ -16,7 +16,29 @@
     <canvas></canvas>
     <script>
      const canvasEl = document.querySelector("canvas"),
-     canvasCtx = canvasEl.getContext("2d")
+     canvasCtx = canvasEl.getContext("2d"),
+           gapX = 10
+     
+     const lineWidth = 15
+     
+     const filed = {
+       w: window.innerWidth,
+       h: window.innerHeight,
+       draw: function() {
+         canvasCtx.fillStyle = "#286047"
+        canvasCtx.fillRect(0,0, this.w, this.h)
+         
+       },
+     }
+     functio
+     
+     const line = {
+       w: 15,
+       h: field.h,
+       draw: function() {
+         canvasCtx.fillStyle = "#ffffff"
+        canvasCtx.fillRect(fild.w / 2 - this.w / 2, 0, this.w, window.innerHeight)
+     }
      
      function setup() {
        canvasEl.width = canvasCtx.width = window.innerWidth
@@ -25,6 +47,10 @@
      }
       
       function draw() {
+        
+        field.draw()
+        
+        
         canvasCtx.fillStyle = "#286047"
         canvasCtx.fillRect(0,0, windwow.innerWindth, windwow.innerHeight)
         canvasCtx.fillStyle = "#ffffff"
@@ -33,9 +59,19 @@
         window.innerHeight)
         
         
-        //desenho das raquetes
+        //desenho da raquete esquerda
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(gapX, 240, lineWidth, 200)
+        // desenho da raquete esquerda
+        canvasCtx.fillStyle = "#ffffff"
+        canvasCtx.fillRect(window.innerWidth - lineWidth - gapX,
+        200, lineWidth, 200)
+        
+        // desenho da bola
+        canvasCtx.fillStyle = "#ffffff"
+        canvasCtx.beginPath()
+        canvasCtx.arc(120, 240, 20, 0, 2 * Math.PI, false)
+        canvasCtx.fill()
       }
       
       setup()
