@@ -20,36 +20,146 @@
            gapX = 10
      
      const lineWidth = 15
-     
-     const filed = {
+     const mouse = { x: 0, y: 0 }
+     const field = {
        w: window.innerWidth,
        h: window.innerHeight,
        draw: function() {
+         //desenho do campo
          canvasCtx.fillStyle = "#286047"
         canvasCtx.fillRect(0,0, this.w, this.h)
          
        },
      }
-     functio
-     
-     const line = {
+     //function 
+      
+      const line = {
        w: 15,
        h: field.h,
        draw: function() {
+     // desenho da linha central
          canvasCtx.fillStyle = "#ffffff"
-        canvasCtx.fillRect(fild.w / 2 - this.w / 2, 0, this.w, window.innerHeight)
+        canvasCtx.fillRect(fild.w / 2 - this.w / 2, 0, this.w, this.h)
+     },
+      }
+       const ball = {
+       x: field.w / 2,
+       y: field.h / 2,
+       r: 20,
+       speed: 5,
+         directonX: 1,
+         directionY: 1,
+         _calcPosition: function(){ 
+           // verifica se o jogador 1 humano fez um ponto
+           if( this.x > field.w - this.r - rightPaddle.y - gapX) {
+             //calcula a posição da raquete eixo y
+             if (this.y + this.r > rightPaddle.y && 
+                 this.y - this.r < rightPaddle.y + rightPaddle.h)
+     {
+      // rebate a bola 
+       this._reverseX()
      }
-     
+      else{
+        // fazer ponto
+      }
+     }
+             
+    
+             // verifica se o jogador 2 (computador) fez um ponto
+             if (this.x < this.r + leftPaddle.w + gapX) {
+               //calcula a posição da raquete eixo y
+               if (this.y + this.r > leftPaddle.y &&
+                  this.y - this.r < leftPaddle.y + leftPaddle.h) {
+                 // rebate a bola
+                 this._reverseX()
+               } else {
+                 // faz o ponto
+               }
+             }
+    }
+           
+           
+           //calcula a posição vertical da bola (eixo Y)
+        if (
+          (this.y - this.r < 0 && this.directionY < 0) && ||
+          (this.y > field.h - this.r && this.directionY > 0)
+          { )
+          this._reverseY()
+        },
+         },
+          _reverseX: function () {
+            // 1 * 1 = 1
+            // -1 * -1 = 1
+            this.directionX *= -1 
+          },
+            _reverseY: function () {
+            // 1 * 1 = 1
+            // -1 * -1 = 1
+              this.directionY *= -1
+          },
+       _move: function() {
+         this.x += this.directionX * this.speed
+         this.y += this.directiony * this.speed
+       },
+         
+      draw: function () {
+          canvasCtx.fillStyle = "³ffffff"
+          canvasCtx.beginPatch()
+        canvasCtx.arc(120, 240, 20, 0, 2 * Math.PI, false)
+        canvasCtx.fill()
+      },
+     }
      function setup() {
        canvasEl.width = canvasCtx.width = window.innerWidth
        canvasEl.height = canvasCtx.height = window.innerHeight
        
      }
       
+      const leftPaddle = {
+        x: gapX,
+        y: fild.h / 2,
+        w: line.w,
+        h: 200,
+        _move: function() {
+          this.y = mouse.y 
+        }
+        draw: function () {
+          canvasCtx.fillStyle = "³ffffff"
+          canvasCtx.fillRect(this.x, this.y, this.w, this.h)
+          
+          this._calcPosition
+          this._move
+        },
+      }
+      
+      const rightPaddle = {
+        x: field.w - line.w - gapX,
+       y: fild.h / 2,
+        w: line.w,
+        h: 200,
+        _move: function() {
+          this.y = ball.y
+        },
+      
+        draw: function () {
+          canvasCtx.fillStyle = "³ffffff"
+          canvasCtx.fillRect(this.x, this.y, this.w, this.h)
+          
+          this._move()
+        },
+      }
+
+      
+      
       function draw() {
         
         field.draw()
+        line.draw()
         
+        leftPaddle.draw()
+        rightaddle.draw()
+        
+        ball.draw()
         
         canvasCtx.fillStyle = "#286047"
         canvasCtx.fillRect(0,0, windwow.innerWindth, windwow.innerHeight)
@@ -62,7 +172,7 @@
         //desenho da raquete esquerda
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(gapX, 240, lineWidth, 200)
-        // desenho da raquete esquerda
+        // desenho da raquete direita
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(window.innerWidth - lineWidth - gapX,
         200, lineWidth, 200)
@@ -74,9 +184,32 @@
         canvasCtx.fill()
       }
       
-      setup()
-      draw()
       
+          
+          window.animateFrame = (function () {
+            return (
+            window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (callback) {
+              return window.setTimeout(callback, 1000 / 60)
+            }
+            )
+          })()
       
+      function main(){
+        animeFrame(main)
+        draw()
+      }
+          
+          setup()
+          main()
+          
+          canvasEl.addEventListener('mousemove', functiom (e) {
+                                    mouse.x = e.pageX
+                                    mouse.y = e.pageY
+                                    })
     </script>
   </body>
